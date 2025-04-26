@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#2d89ef" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Inlined CSS from style.css (exact copy) -->
+    <style>
+@import url(https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900);
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2e2e2e;
+    font-family: "Inter", sans-serif;
+    background-color: #fff;
+}
+
+.wrapper {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    padding: 30px 0;
+    display: flex;
+}
+
+@media (min-width:768px) {
+    .wrapper {
+        height: 50rem;
+        width: 25rem;
+        border-radius: 40px;
+        border: 10px solid #2e2e2e;
+    }
+}
+
+.wrapper .screen {
+    min-width: 100%;
+    flex: 1;
+    transition: all 0.3s;
+}
+
+.screen-backdrop {
+    width: 135%;
+    height: 25rem;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0 0 50% 50%;
+    background-color: #39a6f0;
+    z-index: -1;
+    transition: all 0.3s;
+}
+
+.wrapper.show-category .home-screen {
+    transform: translateX(-100%);
+}
+
+.wrapper.show-category .category-screen {
+    transform: translateX(-100%);
+}
+
+.wrapper.show-category .screen-backdrop {
+    transform: translate(-50%, -60%)
+}
+
+.head-wrapper {
+    padding: 0 30px;
+}
+
+.menu-btn {
+    width: 2rem;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.welcome {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    color: #ffffff;
+}
+
+.welcome h1 {
+    font-size: 1.5rem;
+}
+
+.welcome p {
+    font-weight: 500;
+}
+
+.welcome .img {
+    position: relative;
+}
+
+.welcome .img .backdrop {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3.8rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: #e5e7fd;
+    z-index: -1;
+}
+
+.welcome .img img {
+    width: 5rem;
+}
+
+.categories-wrapper {
+    margin-top: 1rem;
+    padding: 0 30px;
+    height: calc(100% - 8rem);
+    padding-bottom: 20px;
+    overflow: auto;
+}
+
+.categories {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.category {
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 10px 20px 5px #00000023;
+    transition: all 0.3s;
+}
+
+.category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px 5px #00000040;
+}
+
+.category .left {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.category .left img {
+    width: 3rem;
+}
+
+.category .content h1 {
+    font-size: 1.5rem;
+}
+
+.category .content p {
+    color: #2e2e2e;
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.category .options {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+
+.category:hover .options {
+    opacity: 1;
+    visibility: visible;
+}
+
+.category .toggle-btn {
+    width: 2rem;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.category .toggle-btn:hover {
+    opacity: 1;
+}
+
+/* Category Screen */
+.category-screen .head-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-screen .head-wrapper svg {
+    width: 2rem;
+    cursor: pointer;
+    color: #fff;
+}
+
+.category-details {
+    padding: 0 30px;
+    margin-top: 7rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.category-details img {
+    width: 4rem;
+}
+
+.category-details .details p {
+    opacity: 0.6;
+}
+
+/* tasks */
+.tasks-wrapper {
+    padding: 0 30px;
+    margin-top: 1rem;
+    height: calc(100% - 12rem);
+    padding-bottom: 20px;
+    overflow: auto;
+}
+
+.tasks {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.task-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    width: max-content;
+    cursor: pointer;
+}
+
+.task input {
+    display: none;
+}
+
+.task .checkmark {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 2px;
+    border: 1px solid #2e2e2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.task .checkmark svg {
+    width: 1rem;
+    color: #2e2e2e;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.task:hover .checkmark svg {
+    opacity: 1;
+}
+
+.task .checkmark svg path {
+    stroke-width: 3;
+}
+
+.task input:checked~.checkmark {
+    background-color: #2e2e2e;
+}
+
+.task input:checked~.checkmark svg {
+    opacity: 1;
+    color: #fff;
+}
+
+.task input:checked~p {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-wrapper .delete {
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: #2e2e2e;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.031);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+
+.task-wrapper:hover .delete {
+    opacity: 1;
+    visibility: visible;
+}
+
+.task-wrapper .delete:hover {
+    color: red;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.no-tasks {
+    margin-top: 5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    opacity: 0.6;
+}
+
+/* Add Task */
+.add-task-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #39a6f0;
+    transition: all 0.3s;
+}
+
+.add-task-btn:hover {
+    transform: scale(1.1);
+}
+
+.add-task-btn.active {
+    z-index: 1;
+    bottom: 20rem;
+    transform: rotate(45deg);
+}
+
+.add-task-btn svg {
+    width: 2rem;
+    color: #fff;
+}
+
+/* Updated Add Task Container */
+.add-task {
+    position: absolute;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 25rem;
+    transition: all 0.3s;
+    z-index: 2;
+    /* Instead of a separate backdrop element we now include the bg here */
+    background-color: #fff;
+    border-radius: 40px 40px 0 0;
+    padding: 2rem 1rem;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+}
+
+.add-task.active {
+    bottom: 0;
+}
+
+.add-task .heading {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input,
+.input-group label {
+    display: block;
+    width: 100%;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.input-group label {
+    width: max-content;
+    padding: 0 5px;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.btns button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+    z-index: 1;
+}
+
+button.add-btn {
+    background-color: #39a6f0;
+    color: #fff
+}
+
+/* Optional: Hide the separate add-task-backdrop if not needed */
+.add-task-backdrop {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 135%;
+    min-height: 20rem;               /* allow it to grow with content */
+    border-radius: 40px 40px 0 0;
+    background-color: #fff;
+    padding: 2rem 1rem;             /* added padding for spacing */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog-box {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 25rem;
+    background-color: transparent;
+}
+
+.black-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background-color: #00000023;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+
+.black-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+    </style>
+
+    <title>Javascript Todo-list App</title>
+    <meta
+      name="description"
+      content="Manage your tasks effortlessly with our JavaScript Todos List App. Organize, prioritize, and track your to-dos seamlessly using this user-friendly web application."
+    />
+    <meta
+      name="keywords"
+      content="JavaScript Todos List App, Task Management, To-Do List Web App, Organize Tasks, Track To-Dos, Simple Task Manager, Productivity Tool, User-Friendly Interface, Web-based Task Organizer, JavaScript Task Tracker"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="screen-backdrop"></div>
+      <div class="home-screen screen">
+        <div class="head-wrapper">
+          <div class="menu-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
+              />
+            </svg>
+          </div>
+          <div class="welcome">
+            <div class="content">
+              <h1>Hello John</h1>
+              <p>Today you have <span id="total-tasks">5</span> tasks</p>
+            </div>
+            <div class="img">
+              <div class="backdrop"></div>
+              <img src="images/boy.png" alt="" />
+            </div>
+          </div>
+        </div>
+        <div class="categories-wrapper">
+          <div class="categories">
+            <div class="category">
+              <div class="left">
+                <img src="images/boy.png" alt="sun" />
+                <div class="content">
+                  <h1>Personal</h1>
+                  <p>5 Tasks</p>
+                </div>
+              </div>
+              <div class="options">
+                <div class="toggle-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category-screen screen">
+        <div class="head-wrapper">
+          <div class="back-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+              />
+            </svg>
+          </div>
+          <div class="options">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="category-details">
+          <img src="images/boy.png" alt="" id="category-img" />
+          <div class="details">
+            <p id="num-tasks">8 tasks</p>
+            <h1 id="category-title">Personal</h1>
+          </div>
+        </div>
+        <div class="tasks-wrapper">
+          <div class="tasks">
+            <div class="task-wrapper">
+              <label for="task" class="task">
+                <input type="checkbox" name="task" id="task" />
+                <span class="checkmark">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 12.75l6 6 9-13.5"
+                    />
+                  </svg>
+                </span>
+                <p>Buy a new car lorem</p>
+              </label>
+              <div class="delete">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="add-task-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 4.5v15m7.5-7.5h-15"
+          />
+        </svg>
+      </div>
+      <div class="black-backdrop"></div>
+      <div class="add-task">
+        <div class="add-task-backdrop"></div>
+        <h1 class="heading">Add Task</h1>
+        <div class="input-group">
+          <label for="task-input"> Task </label>
+          <input type="text" id="task-input" required />
+        </div>
+        <div class="input-group">
+          <label for="category-select"> Category </label>
+          <select id="category-select"></select>
+        </div>
+        <div class="input-group">
+          <label for="date-input"> Date </label>
+          <input type="date" id="date-input" required />
+        </div>
+        <div class="input-group">
+          <label for="time-input"> Time </label>
+          <input type="time" id="time-input" required />
+        </div>
+        <div class="input-group">
+          <label for="priority-select"> Priority </label>
+          <select id="priority-select">
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="btns">
+          <button class="cancel-btn">Cancel</button>
+          <button class="add-btn">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
